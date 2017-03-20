@@ -67,13 +67,14 @@ def matrizDeCofatores(matriz):
 	# Para cada elemento, calcular o menor complementar (determinante removendo a linha e coluna)
 	# Em cada valor obtido, multiplicar por ((-1)**(i+j)))
 	temp = np.full_like(matriz, 0)
-	print matriz
 	for index in np.ndindex(matriz.shape):
 		i,j = (index)
 		temp[index] = ((-1)**(i+j)) * menorComp(matriz, i, j)
 	return temp
 p('Matriz de cofatores de M1', matrizDeCofatores(m1))
 
-#TODO: Posto
+# Posto ou Rank
+p('Rank (ou posto) da matriz M1', np.linalg.matrix_rank(m1))
+
 #TODO: Autovalor
 #TODO: Autovetor
