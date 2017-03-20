@@ -52,17 +52,28 @@ p('Determinante de M1', np.linalg.det(m1))
 # Adjunta (inv = adj / det)
 p('Adjunta de M1', np.linalg.det(m1) * np.linalg.inv(m1))
 
+# Menor complementar
+def menorComp(matriz, i, j):
+	# Retirar a linha e coluna dos elementos e calcular o determinante
+	temp = np.delete(np.delete(matriz, j, 1), i, 0)
+	return np.linalg.det(temp)
+p('Menor complementar de M1[0][0]', menorComp(m1, 0, 0))
+p('Menor complementar de M1[1][1]', menorComp(m1, 1, 1))
+p('Menor complementar de M1[2][1]', menorComp(m1, 2, 1))
+p('Menor complementar de M1[0][2]', menorComp(m1, 0, 2))
 
-#TODO: Menor complementar
-def menorComp(matriz):
-	"Calcula o menor complementar de uma matriz"
-	i, j = matriz.shape
-	#return [row[:j] + row[j+1:] for row in (matriz[:i] + matriz[i+1:])]
-	return np.add(matriz[:2],matriz[2:])
-p('Menor complementar de M1', menorComp(m1))
+# Matriz de cofatores
+def matrizDeCofatores(matriz):
+	# Para cada elemento, calcular o menor complementar (determinante removendo a linha e coluna)
+	# Em cada valor obtido, multiplicar por ((-1)**(i+j)))
+	temp = np.full_like(matriz, 0)
+	print matriz
+	for index in np.ndindex(matriz.shape):
+		i,j = (index)
+		temp[index] = ((-1)**(i+j)) * menorComp(matriz, i, j)
+	return temp
+p('Matriz de cofatores de M1', matrizDeCofatores(m1))
 
-#TODO: Cofatores
-#TODO: Menor complementar
 #TODO: Posto
 #TODO: Autovalor
 #TODO: Autovetor
