@@ -3,6 +3,7 @@
 
 # A biblioteca 'numpy' contém um excelente pacote para trabalhar com matrizes
 import numpy as np
+from numpy import linalg as LA
 
 def p(text, result):
 	print '\n%s'%text
@@ -37,7 +38,11 @@ p('Matriz identidade de tamanho 5', np.identity(5))
 
 
 # Transposta e simétrica
-m1 = np.array([[1,2,3],[2,3,3],[3,3,4]]) # Ex:Simétrico=True
+m1 = np.matrix([[3,-1,1],[-1,5,-1],[1,-1,3]]) # Ex:Simétrico=True
+#m1 = np.array([[4,5],[2,1]]) # Matriz 2x2
+#m1 = np.matrix([[2,0,0],[0,1,0],[0,0,2]])  # Teste autovalor e autovetor
+m2 = np.matrix([[2,1,-1],[0,1,1],[0,0,2]]) # Teste autovalor e autovetor
+
 transposta = np.matrix.transpose(m1)
 p('Transposta de M1', transposta)
 print 'M1 é simétrica?   R: %r' % (np.array_equal(m1,transposta))
@@ -76,5 +81,12 @@ p('Matriz de cofatores de M1', matrizDeCofatores(m1))
 # Posto ou Rank
 p('Rank (ou posto) da matriz M1', np.linalg.matrix_rank(m1))
 
-#TODO: Autovalor
-#TODO: Autovetor
+
+# Autovalor e autovetor
+autovalor, autovetor = np.linalg.eig(m1)
+p("Autovalor da matriz M1:", autovalor)
+p("Autovetor da matriz M1:", np.around(autovetor))
+
+autovalor, autovetor = np.linalg.eig(m2)
+p("Autovalor da matriz M2:", autovalor)
+p("Autovetor da matriz M2:", np.around(autovetor))
