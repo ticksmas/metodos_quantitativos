@@ -97,8 +97,14 @@ p("Autovetor da matriz M2:", np.around(autovetor))
 #   2x + 3y + 5z – 2w = 21
 #   4x – 2y – z + w = 16
 coeficientes = np.array([[ 1,-1,-1, 1],
-						 [ 2, 3, 5,-2]
+						 [ 2, 3, 5,-2],
 						 [ 4,-2,-1, 1]])
 valores = np.array([10,21,16])
-result = np.linalg.solve(coeficientes, valores)
-p("Resultados de um sistema de equações: ",result)
+
+# Este método requer uma matrix quadrática
+#result = np.linalg.solve(coeficientes, valores) 
+
+# Método 'least-squares-fitting', que minimiza o erro da solução aproximada
+result = np.linalg.lstsq(coeficientes, valores)
+
+p("Resultados de um sistema de equações: ", result)
