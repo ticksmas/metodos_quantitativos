@@ -4,42 +4,36 @@
 # Alunos    : Matheus Alcantara
 #             Pedro Ruas
 #             Marcos W. Rodrigues
-# Abordagens: Regress„o Linear Simples
-#             Regress„o Linear Multivari·vel
-#             Regress„o Linear Multipla (n > 2)
+# Abordagens: Regress√£o Linear Simples
+#             Regress√£o Linear Multivari√°vel
+#             Regress√£o Linear Multipla (n > 2)
 #--------------------------------------------------------------------------------
-
-#******************
-# APAGAR ESTA LINHA [https://cran.r-project.org/doc/contrib/Landeiro-Introducao.pdf]
-# APAGAR ESTA LINHA [https://pgbm.icb.ufg.br/up/320/o/IntroR_VictorLandeiro_version_6.1.pdf]
-# APAGAR ESTA LINHA [http://plutao.est.ufmg.br/arquivos/rts/RT-SE-2009.pdf]
-#******************
 
 #---------- 
 
-# Regress„o Linear Simples
+# Regress√£o Linear Simples
 
 galap <- read.table("https://sites.google.com/site/vllandeiror/dados/galapagos.txt", sep=" ", header=TRUE, quote="\"", colClasses="character", fileEncoding="UTF-8")
 riqueza <- scan(text=galap[,3], dec=".")
 area <- scan(text=galap[,2], dec=".")
 plot(area,riqueza)
 
-#Note que a relaÁ„o n„o È linear e que um ponto assemelha-se a um outlier. Para linearizar os dados e reduzir o efeito do outlier tranformamos os dados em log.
+#Note que a rela√ß√£o n√£o √© linear e que um ponto assemelha-se a um outlier. Para linearizar os dados e reduzir o efeito do outlier tranformamos os dados em log.
 riqueza.log <-log10(strtoi(riqueza,base=10))
 area.log <- log10(as.double(area))
 plot(area.log, riqueza.log) 
 
-resultado<-lm(riqueza.log ~ area.log) #fazendo a regress„o
-resultado #mostra os coeficientes a (intercepto) e b (inclinaÁ„o) da regress„o
-summary(resultado) #detalhes da regress„o
+resultado<-lm(riqueza.log ~ area.log) #fazendo a regress√£o
+resultado #mostra os coeficientes a (intercepto) e b (inclina√ß√£o) da regress√£o
+summary(resultado) #detalhes da regress√£o
 
-summary.aov(resultado) #estatÌsticas: valores de t, probabilidades, os graus de liberdade e r2
+summary.aov(resultado) #estat√≠sticas: valores de t, probabilidades, os graus de liberdade e r2
 plot(area.log,riqueza.log) 
-abline(resultado) #linha de tendÍncia da regress„o
+abline(resultado) #linha de tend√™ncia da regress√£o
 
 #----------
 
-# Regress„o Linear Multivari·vel
+# Regress√£o Linear Multivari√°vel
 
 
 
@@ -47,7 +41,7 @@ abline(resultado) #linha de tendÍncia da regress„o
 
 #----------
 
-# Regress„o Linear Multipla (n > 2)
+# Regress√£o Linear Multipla (n > 2)
 
 formigas <- read.table("https://sites.google.com/site/vllandeiror/dados/formigas.txt", sep=" ", header=TRUE, quote="\"", colClasses="character", fileEncoding="UTF-8")
 lat <- scan(text=formigas[,1], dec=".") # latitude
@@ -58,7 +52,7 @@ reg.mult <- lm(log10(dens.formig) ~ lat+alt)
 reg.mult
 summary(reg.mult)
 summary.aov(reg.mult)
-#avPlots(reg.mult) #gr·fico dos parciais desta regress„o m˙ltipla (pacote "car")
+#avPlots(reg.mult) #gr√°fico dos parciais desta regress√£o m√∫ltipla (pacote "car")
 
 #----------
 #----------
