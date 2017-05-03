@@ -31,7 +31,7 @@ p('Triangular Superior de M1', np.triu(m1))
 p('Triangular Inferior de M1', np.tril(m1))
 
 # Diagonal 
-p('Matriz diagonal baseada em M1', np.diag(np.diag(m1)))
+p('Matriz diagonal baseada em M1', np.diag(m1)
 
 # Identidade
 p('Matriz identidade de tamanho 5', np.identity(5))
