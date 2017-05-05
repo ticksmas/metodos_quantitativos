@@ -4,55 +4,73 @@
 # Alunos    : Matheus Alcantara
 #             Pedro Ruas
 #             Marcos W. Rodrigues
-# Abordagens: Espaços e Sub-espaços (Espaços e Sub-espaços vetoriais, Combinação
-#                      Linear, Sub-espaço vetorial gerado, Dependência e Indepen-
-#                      dência Linear, Base de um Espaço vetorial, Transformações
-#                      Lineares, Núcleo e imagemde uma transformação linear
+# Abordagens: EspaÃ§os e Sub-espaÃ§os (EspaÃ§os e Sub-espaÃ§os vetoriais, CombinaÃ§Ã£o
+#                      Linear, Sub-espaÃ§o vetorial gerado, DependÃªncia e Indepen-
+#                      dÃªncia Linear, Base de um EspaÃ§o vetorial, TransformaÃ§Ãµes
+#                      Lineares, NÃºcleo e imagem de uma transformaÃ§Ã£o linear
 #--------------------------------------------------------------------------------
 
-# Espaços e Sub-espaços vetoriais
+#----------
+#----------
+
+# EspaÃ§os e Sub-espaÃ§os vetoriais
 
 
 
 
 #----------
+#----------
 
-# Combinação Linear
+# CombinaÃ§Ã£o Linear
 
 
 
 
 #----------
+#----------
 
-# Sub-espaço vetorial gerado
+# Sub-espaÃ§o vetorial gerado
 
 
 
 
 #----------
+#----------
 
-# Dependência e Independência Linear
+# DependÃªncia e IndependÃªncia Linear
 
+#http://www.statmethods.net/stats/frequencies.html
+
+A <- matrix(data = 1:25, nrow = 5, ncol = 5, byrow = TRUE)
+chisq.test(A)
+
+library(MASS)
+mytable <- xtabs(~A+B+C, data=mydata) 
+
+#Mutual Independence: A, B, and C are pairwise independent.
+loglm(~A+B+C, mytable)
+
+#Partial Independence: A is partially independent of B and C (i.e., A is independent of the composite variable BC).
+loglin(~A+B+C+B*C, mytable) 
+
+#----------
+#----------
+
+# Base de um EspaÃ§o vetorial
 
 
 
 #----------
+#----------
 
-# Base de um Espaço vetorial
-
+# TransformaÃ§Ãµes Lineares
 
 
 
 #----------
-
-# Transformações Lineares
-
-
-
-
 #----------
 
-# Núcleo e imagemde uma transformação linear
+# NÃºcleo e imagem de uma transformaÃ§Ã£o linear
 
 
 
