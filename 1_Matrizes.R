@@ -54,7 +54,7 @@ cat("Posto (rank) da matriz A:\n") ; A ; matrix(rank(A), nrow=length(A[,1]), nco
 
 # Triangular superior e inferior
 
-library(base)
+library(base) #install.packages("base")
 C <- matrix(1:20, 4, 5)
 cat("Triangular superior:\n") ; upper.tri(C, diag=TRUE)
 cat("Triangular inferior:\n") ; lower.tri(C, diag=TRUE)
