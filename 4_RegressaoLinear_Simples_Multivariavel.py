@@ -22,19 +22,6 @@ from sklearn import datasets, linear_model
 # Load the diabetes dataset
 diabetes = datasets.load_diabetes()
 
-#teste = numpy.array([[ 2, 4, 200],
-#					[0,6,240],
-#					[3,4,250],
-#					[5,5,300],
-#					[4,4,310],
-#					[3,5,320],
-#					[4,6,325],
-#					[5,8,320]])
-
-
-
-#X = np.random.randint(0, 10, size=(7, 7))
-
 # Use only one feature
 diabetes_X = diabetes.data[:, np.newaxis, 2]
 
