@@ -9,9 +9,11 @@
 #             Regressão Linear Multipla (n > 2)
 #--------------------------------------------------------------------------------
 
-#---------- 
-
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 # Regressão Linear Simples
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 
 galap <- read.table("https://sites.google.com/site/vllandeiror/dados/galapagos.txt", sep=" ", header=TRUE, quote="\"", colClasses="character", fileEncoding="UTF-8")
 riqueza <- scan(text=galap[,3], dec=".")
@@ -31,17 +33,27 @@ summary.aov(resultado) #estatísticas: valores de t, probabilidades, os graus de
 plot(area.log,riqueza.log) 
 abline(resultado) #linha de tendência da regressão
 
-#----------
-
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 # Regressão Linear Multivariável
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 
 
 
 
 
-#----------
 
+
+
+
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 # Regressão Linear Multipla (n > 2)
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
+
+library(car)
 
 formigas <- read.table("https://sites.google.com/site/vllandeiror/dados/formigas.txt", sep=" ", header=TRUE, quote="\"", colClasses="character", fileEncoding="UTF-8")
 lat <- scan(text=formigas[,1], dec=".") # latitude
@@ -52,7 +64,7 @@ reg.mult <- lm(log10(dens.formig) ~ lat+alt)
 reg.mult
 summary(reg.mult)
 summary.aov(reg.mult)
-#avPlots(reg.mult) #gráfico dos parciais desta regressão múltipla (pacote "car")
+avPlots(reg.mult) #gráfico dos parciais desta regressão múltipla (pacote "car")
 
-#----------
-#----------
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
