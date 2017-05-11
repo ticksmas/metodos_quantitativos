@@ -1,8 +1,10 @@
 \documentclass{article}
 \usepackage[a4paper,margin=1in]{geometry}
-
+\usepackage{graphicx}
+\graphicspath{ {images/} }
 \usepackage[utf8]{inputenc}
 \usepackage{minted}
+\usepackage[brazilian]{babel}
 
 \newenvironment{pycode}[2][h!]
  {\VerbatimEnvironment
@@ -25,7 +27,7 @@
 
 \section{Introdução}
 
-Este documento apresenta uma relação de códigos e procedimentos implementados, utilizando as linguagens Python e R, tal como a ferramenta Minitab, para explorar as técnicas dentro do contexto de Métodos Quantitativos em Ciência da Computação.
+Este documento apresenta uma relação de códigos e procedimentos implementados, utilizando as linguagens Python e R, tal como a ferramenta \emph{Minitab Express}, para explorar as técnicas dentro do contexto de Métodos Quantitativos em Ciência da Computação.
 
 Para a linguagem Python, foram utilizadas bibliotecas que implementam os cálculos e operações necessárias, sendo elas a biblioteca NumPy (incluindo o pacote Linalg) e SKLearn.
 A linguagem R contempla em suas bibliotecas as operações necessárias para o desenvolvimento dos códigos aqui descritos.
@@ -559,7 +561,72 @@ summary.aov(reg.mult)
 avPlots(reg.mult)
 \end{rcode}
     
-    
+\newpage
+
+\section{Estatística descritiva}
+
+O objetivo da estatística descritiva consiste em aplicar técnicas para descrever um conjunto de dados, resumindo suas características e comportamento. Neste capítulo demonstramos exemplos dessas técnicas, tendo com suporte a ferramenta \emph{Minitab Express}.
+
+Uma visão geral do sofware \emph{Minitab Express} é exibida na Figura~\ref{fig:minitaboverview}. Bases de exemplo da própria ferramenta estão disponíveis, e foram utilizadas. À direita da imagem, temos uma base de teste relativa ao consumo energético apurado na residência de 25 famílias, na qual aplicaremos alguns conceitos de estatística descritiva.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.75]{minitab.png}
+    \caption{Minitab - Visão geral}
+    \label{fig:minitaboverview}
+\end{figure}
+
+
+É possível ainda gerar um conjunto de números aleatórios, com base em alguns parâmetros pré-definidos, através da opção \textit{Random Data} como exibido na Figura~\ref{fig:aleatorios}. Dentre os parâmetros, a média, o desvio padrão e a distribuição (Normal, Poisson, Weibull, dentre outras).
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.75]{aleatorios.png}
+    \caption{Geração de números aleatórios}
+    \label{fig:aleatorios}
+\end{figure}
+
+\newpage 
+
+A partir da base de dados, é possível, através da opção \textit{Describe $>$ Descriptive Statistics}, ver um resumo estatístico dessa base. Na Figura~\ref{fig:descritiva} é exibido a opção no software, bem como os resultados da base utilizada de consumo energético.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.75]{descritiva.png}
+    \caption{Medidas descritivas de variáveis quantitativas}
+    \label{fig:descritiva}
+\end{figure}
+
+Também é possível gerar uma série de gráficos distintos no âmbito de estatística descritiva, para análises. Como exemplo, o Histograma, gerado através da opção \textit{Histogram $>$ Simple}. Na Figura~\ref{fig:historgama} é exibido a opção no software, bem como o histograma gerado.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.75]{histograma.png}
+    \caption{Histograma}
+    \label{fig:histograma}
+\end{figure}
+
+Da mesma forma, o gráfico BoxPlot é exibido na Figura~\ref{fig:boxplot}. Esse gráfico pode ser gerado através da opção \textit{Boxplot $>$ Simple}.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.75]{boxplot.png}
+    \caption{BoxPlot}
+    \label{fig:boxplot}
+\end{figure}
+
+Por fim, é possível fazer a análise da distribuição de probabilidades, de maneira a identificar se o conjunto de dados segue uma distribuição Normal. A Figura~\ref{fig:probanalises} demonstra essa análise no \emph{Minitab}, acionada através da opção \textit{Normality Test}.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.75]{probanalise.png}
+    \caption{Teste de normalidade}
+    \label{fig:probanalises}
+\end{figure}
+
+Nesta análise, são exibidos os resultados do teste de Anderson Darling, com as variáveis \emph{AD-value} e \emph{P-value}. Para análises mais completas, considerando outras distribuições, é necessário utilizar a versão completa do \emph{Minitab}, disponível para compra.
+
+
 \section{Considerações sobre este documento}
 
 Os códigos aqui apresentados utilizaram base de dados de teste, mas podem ser facilmente adaptados para contemplar dados reais (basta mudar as matrizes ou conjuntos inicializados nos códigos).
@@ -575,10 +642,11 @@ A seguir, uma lista de arquivos que acompanham este documento, que podem ser usa
     \item  3\_PCA\_AnáliseFatorial\_SVD.R
     \item  4\_RegressaoLinear\_Simples\_Multivariavel.py
     \item  4\_RegressaoLinear\_Simples\_Multivariavel.R
+    \item  5\_estatistica\_descritiva.mpjx
     \item  metodos\_quantitativos.tex
 
 \end{itemize}
 
-Os arquivos com extensão \emph{.R}, são implementações em linguagem R, enquanto aqueles com extensão \emph{.py}, são implementações em Python. Também acompanha o código fonte deste documento.
+Os arquivos com extensão \emph{.R}, são implementações em linguagem R, enquanto aqueles com extensão \emph{.py}, são implementações em Python. Os arquivos com extensão \emph{.mpjx} são arquivos de projeto do \emph{Minitab Express}. Também acompanha o código fonte deste documento.
 
 \end{document}
