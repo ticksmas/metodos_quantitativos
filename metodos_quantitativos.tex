@@ -403,6 +403,7 @@ fa.diagram( out )
 \end{rcode}
     
     
+    
 \section{Regressão Linear Simples e Multipla}
 
 Neste capítulo demonstramos exemplos de implementações relacionadas a Regressão Linear, simples ou multipla, e também a Função Logística. Novamente, fizemos o uso das bibliotecas NumPy e SKLEARN em Python, enquanto na linguagem R há implementação nativa. Adicionalmente, em Python, usamos a biblioteca MatPlot para plotar gráficos para melhor visualização dos resultados da regressão linear.
@@ -563,6 +564,9 @@ avPlots(reg.mult)
     
 \newpage
 
+
+
+
 \section{Estatística descritiva}
 
 O objetivo da estatística descritiva consiste em aplicar técnicas para descrever um conjunto de dados, resumindo suas características e comportamento. Neste capítulo demonstramos exemplos dessas técnicas, tendo com suporte a ferramenta \emph{Minitab Express}.
@@ -627,6 +631,190 @@ Por fim, é possível fazer a análise da distribuição de probabilidades, de m
 Nesta análise, são exibidos os resultados do teste de Anderson Darling, com as variáveis \emph{AD-value} e \emph{P-value}. Para análises mais completas, considerando outras distribuições, é necessário utilizar a versão completa do \emph{Minitab}, disponível para compra.
 
 
+
+\section{Inferência Estatística}
+
+Alguns testes de hipóteses, no contexto de inferência estatística, são apresentados neste capítulo. Foi realizada a implementação de algumas funções, usando apenas a linguagem R, considerada pelo grupo a mais adequada para tais fins.
+
+\begin{rcode}{Inferência Estatística}
+#----- Teste de hipotese - Teste para a Média com Variancia desconhecida
+x <- c(19.8, 18.5, 17.6, 16.7, 15.8, 15.4, 14.1, 13.6,
+     + 11.9, 11.4, 11.4, 8.8, 7.5, 15.4, 15.4, 19.5,
+     + 14.9, 12.7, 11.9, 11.4, 10.1, 7.9)
+x
+t.test(x, alternative="greater", mu=10, conf.level=0.95)
+
+
+#----- Teste de hipotese - Teste para a Variância de uma população normal
+nam <- 20 #n = tamanho da amostra
+varS <- 0.0153 #varS = variância amostral
+sig0 <- 0.01 #sig0 = valor de variância testada
+alfa <- 0.05 #alfa = significância do teste
+quicalc = (nam-1) * varS / sig0
+quicalc
+
+
+#Funcao que testa uma variancia
+onevartest <- function(varS, nam, sig0, alfa, tail){
+  quicalc <- (nam-1)*varS/sig0; #estatística de teste
+  #Testes unilaterais apenas
+  if(tail==0){ #intervalo superior
+    #pvalor do teste
+    pvalor <- pchisq(q=quicalc,df=nam-1, lower.tail = F)
+    Intervalo <- ((nam-1)*varS)/(qchisq(p=alfa,df=nam-1, lower.tail=F))
+    print("P-Valor e Valor crítico do intervalo superior")
+  }else{ #intervalo inferior
+    #pvalor do teste
+    pvalor <- pchisq(q=quicalc,df=nam-1, lower.tail = T);
+    Intervalo <- ((nam-1)*varS)/(qchisq(p=alfa,df=nam-1, lower.tail=T))
+    print("P-Valor e Valor crítico do intervalo inferior")
+  }
+  return(list(c("Pvalor =", pvalor),c("Intervalo = ", Intervalo)))
+}
+onevartest(varS, nam, sig0, alfa, 0)
+
+
+#----- Teste para uma Proporção Binomial
+x <- matrix(c(4,196),1,2)
+x
+prop.test(x,p=0.06,alternative="less",conf.level=0.97)
+
+
+#----- Testes de Duas amostras para a diferença de duas médias com variâncias desconhecidas e diferentes
+x <- c(91.50, 94.18, 92.18, 95.39,91.79,89.07,94.72,89.21)
+y <- c(89.19,90.95,90.46,93.21,97.19,97.04,91.07,92.75)
+x
+y
+t.test(x,y,alternative="two.sided",mu=0)
+
+
+#----- Teste para as variâncias de duas populações normais
+x <- rnorm(11, sd=5.1)
+y <- rnorm(16, sd=4.7)
+x
+y
+var.test(x,y,ratio=1,alternative="t",conf.level=0.9)
+
+#----- Teste para duas proporções
+
+X <- c(110,33)
+Y <- c(201299, 200745)
+X
+Y
+prop.test(X,Y,alternative="t")
+prop.test(X,Y,alternative="t",conf.level=0.99) # Com a confiança
+\end{rcode}
+
+
+\section{ANOVA e MANOVA}
+
+Neste capítulo exibe-se, também apenas em linguagem R, implementações dos métodos estatísticos ANOVA e MANOVA, para análise de variância de amostras. Implementações específicas também estão nos arquivos que acompanham este documento.
+
+\begin{rcode}{ANOVA}
+# Iniciando alguns dados para exemplo
+data <- read.table(header=TRUE, text='
+ subject sex   age before after
+                   1   F   old    9.5   7.1
+                   2   M   old   10.3  11.0
+                   3   M   old    7.5   5.8
+                   4   F   old   12.4   8.8
+                   5   M   old   10.2   8.6
+                   6   M   old   11.0   8.0
+                   7   M young    9.1   3.0
+                   8   F young    7.9   5.2
+                   9   F   old    6.6   3.4
+                   10   M young    7.7   4.0
+                   11   M young    9.4   5.3
+                   12   M   old   11.6  11.3
+                   13   M young    9.9   4.6
+                   14   F young    8.6   6.4
+                   15   F young   14.3  13.5
+                   16   F   old    9.2   4.7
+                   17   M young    9.8   5.1
+                   18   F   old    9.9   7.3
+                   19   F young   13.0   9.5
+                   20   M young   10.2   5.4
+                   21   M young    9.0   3.7
+                   22   F young    7.9   6.2
+                   23   M   old   10.1  10.0
+                   24   M young    9.0   1.7
+                   25   M young    8.6   2.9
+                   26   M young    9.4   3.2
+                   27   M young    9.7   4.7
+                   28   M young    9.3   4.9
+                   29   F young   10.7   9.8
+                   30   M   old    9.3   9.4
+                   ')
+                   
+# ANOVA com 1 caminho de classificação
+aov1 <- aov(before ~ sex, data=data)
+summary(aov1)
+# Exibe as médias           
+model.tables(aov1, "means")
+
+# ANOVA com 2 caminhos
+aov2 <- aov(after ~ sex*age, data=data)
+aov2 <- aov(after ~ sex + age + sex:age, data=data)
+summary(aov2)
+# Exibe as médias
+model.tables(aov2, "means")
+
+\end{rcode}
+
+\begin{rcode}{MANOVA}
+# Iniciando alguns dados para exemplo e importanto bibliotecas
+wants <- c("car", "mvtnorm")
+has   <- wants %in% rownames(installed.packages())
+if(any(!has)) install.packages(wants[!has])
+set.seed(123)
+P     <- 3
+Nj    <- c(15, 25, 20)
+Sigma <- matrix(c(16,-2, -2,9), byrow=TRUE, ncol=2)
+mu11  <- c(-4,  4)
+mu21  <- c( 3,  3)
+mu31  <- c( 1, -1)
+library(mvtnorm)
+Y11 <- round(rmvnorm(Nj[1], mean=mu11, sigma=Sigma))
+Y21 <- round(rmvnorm(Nj[2], mean=mu21, sigma=Sigma))
+Y31 <- round(rmvnorm(Nj[3], mean=mu31, sigma=Sigma))
+dfMan1 <- data.frame(Y =rbind(Y11, Y21, Y31),
+                     IV=factor(rep(1:P, Nj)))
+
+# Análise simples usando MANOVA
+manRes1 <- manova(cbind(Y.1, Y.2) ~ IV, data=dfMan1)
+summary(manRes1, test="Wilks")
+summary(manRes1, test="Roy")
+summary(manRes1, test="Pillai")
+summary(manRes1, test="Hotelling-Lawley")
+
+# Usando MANOVA com 3 variáveis dependentes
+Y <- cbind(y1,y2,y3)
+fit <- manova(Y ~ A*B)
+summary(fit, test="Pillai")
+
+
+# Para MANOVA de 2 caminhos, vamos instanciar mais dados de teste
+Q    <- 2
+mu12 <- c(-1,  4)
+mu22 <- c( 4,  8)
+mu32 <- c( 4,  0)
+library(mvtnorm)
+Y12  <- round(rmvnorm(Nj[1], mean=mu12, sigma=Sigma))
+Y22  <- round(rmvnorm(Nj[2], mean=mu22, sigma=Sigma))
+Y32  <- round(rmvnorm(Nj[3], mean=mu32, sigma=Sigma))
+dfMan2 <- data.frame(Y <- rbind(Y11, Y21, Y31, Y12, Y22, Y32),
+                     IV1 <- factor(rep(rep(1:P, Nj), Q)),
+                     IV2 <- factor(rep(1:Q, each=sum(Nj))))
+
+# Usando a técnica com 2 caminhos
+manRes2 <- manova(cbind(Y.1, Y.2) ~ IV1*IV2, data=dfMan2)
+summary(manRes2, test="Pillai")
+summary(manRes2, test="Wilks")
+summary(manRes2, test="Roy")
+summary(manRes2, test="Hotelling-Lawley")
+\end{rcode}
+
+
 \section{Considerações sobre este documento}
 
 Os códigos aqui apresentados utilizaram base de dados de teste, mas podem ser facilmente adaptados para contemplar dados reais (basta mudar as matrizes ou conjuntos inicializados nos códigos).
@@ -643,8 +831,9 @@ A seguir, uma lista de arquivos que acompanham este documento, que podem ser usa
     \item  4\_RegressaoLinear\_Simples\_Multivariavel.py
     \item  4\_RegressaoLinear\_Simples\_Multivariavel.R
     \item  5\_estatistica\_descritiva.mpjx
+    \item  6\_InferenciaEstatistica.R
+    \item  7\_ANOVA\_MANOVA.R
     \item  metodos\_quantitativos.tex
-
 \end{itemize}
 
 Os arquivos com extensão \emph{.R}, são implementações em linguagem R, enquanto aqueles com extensão \emph{.py}, são implementações em Python. Os arquivos com extensão \emph{.mpjx} são arquivos de projeto do \emph{Minitab Express}. Também acompanha o código fonte deste documento.
